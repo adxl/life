@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React,{ Component } from 'react';
 import Info from './Info';
 import Canvas from './Canvas';
 
