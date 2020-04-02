@@ -10,25 +10,36 @@ export default class Canvas extends Component{
 
 	sketch = (p) => {
 
-		let loopTimer = 200;
+		let loopTimer = 20;
+
+		let terrain;
+		let width = 200;
+		let height = 200;
+
+		let rows = height / 10;
+		let cols = width / 10;
 
 		p.setup = () => {
-			p.createCanvas(200, 200);
+			p.createCanvas(width, height);
 			
 		};
    
 		p.draw = () => {
 		
-			p.background(0);
-			p.fill(255);
-			p.rect(20, loopTimer, 50, 50);
-			
-			loopTimer = (loopTimer + 1) % 200;
 
+			p.background(0);
+
+		
+			
+
+			// add a new generation
+			this.props.onEvolve();
+					
+			// run draw() 'n=loopTimer' times
+			loopTimer--;
 			if (loopTimer === 0) {
 				p.noLoop();
-				console.log('End.');
-			
+				console.log('End.');	
 			}
 		};
 	}
