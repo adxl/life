@@ -8,19 +8,26 @@ export default class Canvas extends Component{
 		this.pRef = React.createRef();
 	}
 
+	state = {
+		gensLimit: 0
+	}
+
 	launch = () => {
-		// console.log('LAUNCHED!');
-		
-		if(this.p5Canvas != undefined)
-			this.p5Canvas.remove();
-		this.p5Canvas = new p5(this.sketch,this.pRef.current);
-		console.log(this.p5Canvas);
+		const { gensLimit } = this.state;
+		if(gensLimit >= 0) {
+			if(this.p5Canvas !== undefined)
+				this.p5Canvas.remove();
+			this.p5Canvas = new p5(this.sketch,this.pRef.current);
+		}
+	}
+
+	handleChange = (event) => {
+		this.setState({ gensLimit: event.target.value });
 	}
 
 	sketch = (p) => {
 
-		let loopTimer = 20;
-		let allowInfinite = false;
+		let loopTimer = this.state.gensLimit;
 
 		let terrain;
 		let width = 400;
@@ -30,13 +37,6 @@ export default class Canvas extends Component{
 		let cols = width / 10;
 
 		p.setup = () => {
-			
-			// console.log(p);
-			
-			// if (this.p != undefined)
-			// 	p.remove();
-
-			// p.clear();
 			this.props.onReset();
 			p.createCanvas(width,height);
 			terrain = createTerrain();
@@ -85,8 +85,8 @@ export default class Canvas extends Component{
 			this.props.onEvolve();
 					
 			// run draw() 'n=loopTimer' times
-			if(!allowInfinite)
-				loopTimer--;
+			
+			loopTimer--;
 			
 			if (loopTimer === 0) {
 				p.noLoop();
@@ -138,7 +138,11 @@ export default class Canvas extends Component{
 	render() {
 		return (
 			<React.Fragment>
-				<button onClick={this.launch} className="btn btn-success">Launch</button>
+				<div>
+					<label className="text-dark" >Generation limit: (0 infinite)</label>
+					<input type="number" className="mr-2" onChange={this.handleChange} value={this.state.gensLimit} min="0"/>
+					<button onClick={this.launch} className="btn btn-success">Launch</button>
+				</div>
 				<hr/>
 				<div ref={this.pRef}>
 				</div>
