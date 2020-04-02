@@ -8,13 +8,18 @@ export default class Canvas extends Component{
 		this.pRef = React.createRef();
 	}
 
-	state = {
-		terrain: []
+	launch = () => {
+		// console.log('LAUNCHED!');
+		
+		if(this.p5Canvas != undefined)
+			this.p5Canvas.remove();
+		this.p5Canvas = new p5(this.sketch,this.pRef.current);
+		console.log(this.p5Canvas);
 	}
 
 	sketch = (p) => {
 
-		let loopTimer = 100;
+		let loopTimer = 20;
 		let allowInfinite = false;
 
 		let terrain;
@@ -25,11 +30,17 @@ export default class Canvas extends Component{
 		let cols = width / 10;
 
 		p.setup = () => {
+			
+			// console.log(p);
+			
+			// if (this.p != undefined)
+			// 	p.remove();
+
+			// p.clear();
+			this.props.onReset();
 			p.createCanvas(width,height);
 			terrain = createTerrain();
 			terrain = generateTerrain(terrain);
-
-			this.setState(terrain);
 		};
    
 		function createTerrain() {
@@ -94,7 +105,7 @@ export default class Canvas extends Component{
 					let neighbors = countNeighbors(i,j);
 
 					// cell is dead and have 3 neighbors
-					if (isDead && neighbors == 3) {
+					if (isDead && neighbors === 3) {
 						next[i][j] = true;
 					}
 
@@ -124,14 +135,14 @@ export default class Canvas extends Component{
 		}
 	}
 
-	componentDidMount() {
-		this.p5Canvas = new p5(this.sketch,this.pRef.current);
-	}
-
 	render() {
 		return (
-			<div ref={this.pRef}>
-			</div>
+			<React.Fragment>
+				<button onClick={this.launch} className="btn btn-success">Launch</button>
+				<hr/>
+				<div ref={this.pRef}>
+				</div>
+			</React.Fragment>
 		);
 	} 
   

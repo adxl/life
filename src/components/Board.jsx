@@ -14,6 +14,11 @@ export default class Board extends Component{
 		this.setState({gens});
 	}
 
+	reset = () => {
+		const gens = 0;
+		this.setState({gens});
+	}
+
 	render() {
 		return (
 			<React.Fragment>
@@ -22,7 +27,9 @@ export default class Board extends Component{
 				</div>
 				<br></br>
 				<div>
-					<Canvas onEvolve={this.incrementGenerations} />
+					<Canvas
+						onReset={this.reset}
+						onEvolve={this.incrementGenerations} />
 				</div>
 			</React.Fragment>
 		);
