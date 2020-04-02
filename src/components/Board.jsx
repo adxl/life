@@ -1,11 +1,17 @@
-import React, {Component } from 'react';
+import React, { Component } from 'react';
+import Info from './Info';
 
 export default class Board extends Component{
-	render() {
-		return (
-			<div>
-                
-			</div>
-		);
-	}
+
+state = {
+	gens: 0
+}
+	
+render() {
+	return (
+		<div>
+			<Info gens={this.state.gens}/>
+		</div>
+	);
+}
 }
