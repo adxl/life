@@ -9,7 +9,8 @@ export default class Canvas extends Component{
 	}
 
 	state = {
-		gensLimit: 0
+		gensLimit: 0,
+		forceStop: false
 	}
 
 	launch = () => {
@@ -26,14 +27,22 @@ export default class Canvas extends Component{
 			this.p5Canvas.noLoop();
 	}
 
-	handleChange = (event) => {
+	handleInputChange = (event) => {
 		this.setState({ gensLimit: event.target.value });
 	}
+
+	handleCheck = (event) => {
+		this.setState({forceStop: event.target.checked});
+	} 
 
 	sketch = (p) => {
 
 		let loopTimer = this.state.gensLimit;
+		
+		const stopIfStuck = this.state.forceStop;
 
+		console.log(stopIfStuck);
+		
 		let terrain;
 		let previousTerrain;
 		let elderTerrain;
@@ -84,13 +93,14 @@ export default class Canvas extends Component{
 						p.stroke(255);
 						p.rect(i * 10,j * 10,10,10);
 					}
-
 				}
 
-			// stop if infinite loop
-			if (JSON.stringify(terrain) == JSON.stringify(elderTerrain)) {
-				p.noLoop();
-				console.log('Forced end.');	
+			// force stop if stuck in an infinite loop
+			if (stopIfStuck) {	
+				if (JSON.stringify(terrain) === JSON.stringify(elderTerrain)) {
+					p.noLoop();
+					console.log('Forced end.');	
+				}
 			}
 			
 			elderTerrain = previousTerrain;
@@ -156,7 +166,9 @@ export default class Canvas extends Component{
 			<React.Fragment>
 				<div>
 					<label className="text-dark" >Generation limit: (0 infinite)</label>
-					<input type="number" className="mr-2" onChange={this.handleChange} value={this.state.gensLimit} min="0"/>
+					<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/>
+					<input type="checkbox" onChange={this.handleCheck}/>
+					<label>Stop if stuck</label>
 					<button onClick={this.launch} className="btn btn-success mr-2">Launch</button>
 					<button onClick={this.stop} className="btn btn-danger">Stop</button>
 				</div>
