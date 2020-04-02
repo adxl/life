@@ -9,6 +9,8 @@ export default class Canvas extends Component{
 	}
 
 	state = {
+		width: 100,
+		height: 100,
 		gensLimit: 0,
 		forceStop: false
 	}
@@ -27,13 +29,23 @@ export default class Canvas extends Component{
 			this.p5Canvas.noLoop();
 	}
 
-	handleInputChange = (event) => {
+	handleInputChange = event => {
 		this.setState({ gensLimit: event.target.value });
 	}
 
-	handleCheck = (event) => {
+	handleCheck = event => {
 		this.setState({forceStop: event.target.checked});
 	} 
+
+	handleWidthChange = event => {
+		// console.log(event.target.value);
+		this.setState({ width : event.target.value});	
+	}
+
+	handleHeightChange = event => {
+		// console.log(event.target.value);
+		this.setState({ height : event.target.value});
+	}
 
 	sketch = (p) => {
 
@@ -41,23 +53,25 @@ export default class Canvas extends Component{
 		
 		const stopIfStuck = this.state.forceStop;
 
-		console.log(stopIfStuck);
+		const width = this.state.width;
+		const height = this.state.height;
 		
 		let terrain;
 		let previousTerrain;
 		let elderTerrain;
 
-		let width = 400;
-		let height = 400;
-
-		let rows = height / 10;
-		let cols = width / 10;
+		const rows = width / 10;
+		const cols = height / 10;
 
 		p.setup = () => {
+
 			this.props.onReset();
 			p.createCanvas(width,height);
+			
 			terrain = createTerrain();
 			terrain = generateTerrain(terrain);
+
+			p.background(200);
 		};
    
 		function createTerrain() {
@@ -80,17 +94,16 @@ export default class Canvas extends Component{
 		}
 
 		p.draw = () => {
-
+			
 			for (let i = 0; i < rows; i++)
 				for (let j = 0; j < cols; j++) {
 					if (terrain[i][j]) {
-						p.fill(30);
+						p.fill(50);
 						p.stroke(255);
 						p.rect(i * 10,j * 10,10,10);
 					}
 					else {
-						p.fill(255);
-						p.stroke(255);
+						p.fill(200);
 						p.rect(i * 10,j * 10,10,10);
 					}
 				}
@@ -165,10 +178,17 @@ export default class Canvas extends Component{
 		return (
 			<React.Fragment>
 				<div>
-					<label className="text-dark" >Generation limit: (0 infinite)</label>
-					<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/>
+					
+					<label className="text-dark" >Width</label><br />
+					<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
+					
+					<label className="text-dark" >Height</label><br/>
+					<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
+					
+					<label className="text-dark" >Generation limit: (0 infinite)</label><br/>
+					<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
 					<input type="checkbox" onChange={this.handleCheck}/>
-					<label>Stop if stuck</label>
+					<label>Stop if stuck</label><br/>
 					<button onClick={this.launch} className="btn btn-success mr-2">Launch</button>
 					<button onClick={this.stop} className="btn btn-danger">Stop</button>
 				</div>
