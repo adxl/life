@@ -17,8 +17,8 @@ export default class Canvas extends Component{
 		let loopTimer = 10;
 
 		let terrain;
-		let width = 200;
-		let height = 200;
+		let width = 400;
+		let height = 400;
 
 		let rows = height / 10;
 		let cols = width / 10;
@@ -52,8 +52,19 @@ export default class Canvas extends Component{
 		p.draw = () => {
 		
 
-			p.background(0);
-
+			for (let i = 0; i < rows; i++)
+				for (let j = 0; j < cols; j++) {
+					if (terrain[i][j]) {
+						p.fill(30);
+						p.stroke(255);
+						p.rect(i * 10,j * 10,10,10);
+					}
+					else {
+						p.fill(255);
+						p.stroke(255);
+						p.rect(i * 10,j * 10,10,10);
+					}
+				}
 		
 			
 
