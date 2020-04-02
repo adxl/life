@@ -9,8 +9,8 @@ export default class Board extends Component{
 	}
 
 	state = {
-		width: 100,
-		height: 100,
+		width: 400,
+		height: 400,
 		gens : 0,
 		gensLimit: 0,
 		forceStop: true
@@ -188,30 +188,38 @@ export default class Board extends Component{
 	
 	render() {
 		return (
-			<React.Fragment>
-				<div>
-					
-					<div>
-						<span style={{fontSize:30}} className="badge badge-info mt-3" >Generations: {this.state.gens}</span>
+			<div className="content">
+				<div className="info" >					
+					<div className="fields">
+						<label className="text-light mt-4" >Width</label><br />
+						<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
+						
+						<label className="text-light mt-4" >Height</label><br/>
+						<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
+						
+						<label className="text-light mt-4" >Generations limit: (0 infinite)</label><br/>
+						<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
+					</div>
+	
+					<div className="checkbox  mt-2">
+						<input type="checkbox" onChange={this.handleCheck} checked={this.state.forceStop} />
+						<label className="text-light ml-1">Stop if stuck</label><br/>
 					</div>
 
-					<label className="text-dark" >Width</label><br />
-					<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
+					<div className="buttons">
+						<button onClick={this.launch} className="btn btn-success mr-2">Launch</button>
+						<button onClick={this.stop} className="btn btn-danger">Stop</button>
+					</div>
 					
-					<label className="text-dark" >Height</label><br/>
-					<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
-					
-					<label className="text-dark" >Generation limit: (0 infinite)</label><br/>
-					<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
-					<input type="checkbox" onChange={this.handleCheck} checked={this.state.forceStop} />
-					<label>Stop if stuck</label><br/>
-					<button onClick={this.launch} className="btn btn-success mr-2">Launch</button>
-					<button onClick={this.stop} className="btn btn-danger">Stop</button>
 				</div>
-				<hr/>
-				<div ref={this.pRef}>
+				<div className="board-container">
+					<div className="gen-counter">
+						<span style={{fontSize:20}} className="badge badge-info mt-3 mb-2" >Generations: {this.state.gens}</span>
+					</div>
+					<div ref={this.pRef} className="board">
+					</div>
 				</div>
-			</React.Fragment>
+			</div>
 		);
 	} 
   
