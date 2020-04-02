@@ -35,6 +35,9 @@ export default class Canvas extends Component{
 		let loopTimer = this.state.gensLimit;
 
 		let terrain;
+		let previousTerrain;
+		let elderTerrain;
+
 		let width = 400;
 		let height = 400;
 
@@ -84,8 +87,16 @@ export default class Canvas extends Component{
 
 				}
 
-			terrain = computeNextGeneration();
+			// stop if infinite loop
+			if (JSON.stringify(terrain) == JSON.stringify(elderTerrain)) {
+				p.noLoop();
+				console.log('Forced end.');	
+			}
 			
+			elderTerrain = previousTerrain;
+			previousTerrain = terrain;
+			terrain = computeNextGeneration();
+
 			// add a new generation
 			this.props.onEvolve();
 					
