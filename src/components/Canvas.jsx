@@ -21,6 +21,11 @@ export default class Canvas extends Component{
 		}
 	}
 
+	stop = () => {
+		if (this.p5Canvas !== undefined)
+			this.p5Canvas.noLoop();
+	}
+
 	handleChange = (event) => {
 		this.setState({ gensLimit: event.target.value });
 	}
@@ -141,7 +146,8 @@ export default class Canvas extends Component{
 				<div>
 					<label className="text-dark" >Generation limit: (0 infinite)</label>
 					<input type="number" className="mr-2" onChange={this.handleChange} value={this.state.gensLimit} min="0"/>
-					<button onClick={this.launch} className="btn btn-success">Launch</button>
+					<button onClick={this.launch} className="btn btn-success mr-2">Launch</button>
+					<button onClick={this.stop} className="btn btn-danger">Stop</button>
 				</div>
 				<hr/>
 				<div ref={this.pRef}>
