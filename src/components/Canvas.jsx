@@ -8,9 +8,13 @@ export default class Canvas extends Component{
 		this.pRef = React.createRef();
 	}
 
+	state = {
+		terrain: []
+	}
+
 	sketch = (p) => {
 
-		let loopTimer = 20;
+		let loopTimer = 10;
 
 		let terrain;
 		let width = 200;
@@ -20,10 +24,31 @@ export default class Canvas extends Component{
 		let cols = width / 10;
 
 		p.setup = () => {
-			p.createCanvas(width, height);
-			
+			p.createCanvas(width,height);
+			terrain = createTerrain();
+			terrain = generateTerrain(terrain);
+
+			this.setState( terrain);
 		};
    
+		function createTerrain() {
+			let terrain = new Array(rows);
+		
+			for (let i = 0; i < rows; i++) 
+				terrain[i] = new Array(cols);
+			
+			return terrain;
+		}
+		
+		function generateTerrain(terrain) {
+			for (let i = 0; i < rows; i++){
+				terrain[i] = new Array(cols);
+				for (let j = 0; j < cols; j++)
+					terrain[i][j] = Math.random() < 0.5;
+			}
+			return terrain;
+		}
+
 		p.draw = () => {
 		
 
