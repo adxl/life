@@ -14,7 +14,8 @@ export default class Board extends Component{
 		gens : 0,
 		gensLimit: 0,
 		forceStop: true,
-		smooth: true
+		smooth: false,
+		shape : 'squares'
 	}
 
 	launch = () => {
@@ -64,6 +65,11 @@ export default class Board extends Component{
 		this.setState({ height : event.target.value});
 	}
 
+	handleShapeChange = event => {
+		this.setState({shape : event.target.id});
+		
+	}
+
 	/**/
 
 	sketch = (p) => {
@@ -71,6 +77,8 @@ export default class Board extends Component{
 		let loopTimer = this.state.gensLimit;
 		
 		const stopIfStuck = this.state.forceStop;
+		const shape = this.state.shape;
+
 		let alpha = 255;
 
 		const width = this.state.width;
@@ -123,11 +131,21 @@ export default class Board extends Component{
 					if (terrain[i][j]) {
 						p.fill(50);
 						p.stroke(255);
-						p.rect(i * 10,j * 10,10,10);
+						if (shape === 'squares') {
+							p.rect(i * 10,j * 10,10,10);
+						}
+						else {
+							p.ellipse(i * 10,j * 10,10,10);
+						}
 					}
 					else {
 						p.fill(200,alpha);
-						p.rect(i * 10,j * 10,10,10);
+						if (shape === 'squares') {
+							p.rect(i * 10,j * 10,10,10);
+						}
+						else {
+							p.ellipse(i * 10,j * 10,10,10);
+						}
 					}
 
 			// force stop if stuck in an infinite loop
@@ -207,11 +225,21 @@ export default class Board extends Component{
 					if (terrain[i][j]) {
 						p.fill(50);
 						p.stroke(255);
-						p.rect(i * 10,j * 10,10,10);
+						if (shape === 'squares') {
+							p.rect(i * 10,j * 10,10,10);
+						}
+						else {
+							p.ellipse(i * 10,j * 10,10,10);
+						}
 					}
 					else {
 						p.fill(200);
-						p.rect(i * 10,j * 10,10,10);
+						if (shape === 'squares') {
+							p.rect(i * 10,j * 10,10,10);
+						}
+						else {
+							p.ellipse(i * 10,j * 10,10,10);
+						}
 					}
 				
 		}
@@ -225,20 +253,33 @@ export default class Board extends Component{
 						<label className="text-dark mt-4" >Width</label><br />
 						<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
 						
-						<label className="text-dark mt-4" >Height</label><br/>
+						<label className="text-dark mt-2" >Height</label><br/>
 						<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
-						
-						<label className="text-dark mt-4" >Generations limit: (0 infinite)</label><br/>
+
+						<hr/>
+
+						<label className="text-dark mt-1" >Generations limit: (0 infinite)</label><br/>
 						<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
 					</div>
-	
+
 					<div className="checkbox  mt-3">
 						<input type="checkbox" onChange={this.handleForceStopCheck} checked={this.state.forceStop} />
 						<label className="text-dark ml-1">Stop if unstable</label><br/>
 					</div>
+					<hr />
+					
+					<div className="shapes">
+						<input type="radio" name="shape" id="squares" checked={this.state.shape === 'squares'} onChange={this.handleShapeChange} />
+						<label className="text-dark ml-1 mr-2">Squares</label>
+
+						<input type="radio" name="shape" id="circles" checked={this.state.shape === 'circles'} onChange={this.handleShapeChange} />
+						<label className="text-dark ml-1">Circles</label><br/>
+
+					</div>
+
 					<div className="checkbox mt-2">
 						<input type="checkbox" onChange={this.handleSmoothCheck} checked={this.state.smooth} />
-						<label className="text-dark ml-1">Smooth simulation (Beta)</label><br/>
+						<label className="text-dark ml-1">Smooth simulation</label><br/>
 					</div>
 
 					<div className="buttons">
