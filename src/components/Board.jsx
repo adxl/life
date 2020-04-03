@@ -89,8 +89,8 @@ export default class Board extends Component{
 		let previousTerrain;
 		let elderTerrain;
 
-		const rows = width / 10;
-		const cols = height / 10;
+		const rows = Math.floor(width / 10);
+		const cols = Math.floor(height / 10);
 
 		p.setup = () => {
 
@@ -255,10 +255,10 @@ export default class Board extends Component{
 				<div className="info" >					
 					<div className="fields">
 						<label className="text-dark mt-4" >Width</label><br />
-						<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
-						
+						<input type="number" min="100"  step="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
+					
 						<label className="text-dark mt-2" >Height</label><br/>
-						<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
+						<input type="number" min="100"  step="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
 
 						<hr/>
 
