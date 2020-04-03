@@ -13,7 +13,8 @@ export default class Board extends Component{
 		height: 400,
 		gens : 0,
 		gensLimit: 0,
-		forceStop: true
+		forceStop: true,
+		smooth: false
 	}
 
 	launch = () => {
@@ -45,9 +46,13 @@ export default class Board extends Component{
 		this.setState({ gensLimit: event.target.value });
 	}
 
-	handleCheck = event => {
+	handleForceStopCheck = event => {
 		this.setState({forceStop: event.target.checked});
-	} 
+	}
+	
+	handleSmoothCheck = event => {
+		this.setState({smooth : event.target.checked});
+	}
 
 	handleWidthChange = event => {
 		// console.log(event.target.value);
@@ -59,11 +64,14 @@ export default class Board extends Component{
 		this.setState({ height : event.target.value});
 	}
 
+	/**/
+
 	sketch = (p) => {
 
 		let loopTimer = this.state.gensLimit;
 		
 		const stopIfStuck = this.state.forceStop;
+		let alpha = 255;
 
 		const width = this.state.width;
 		const height = this.state.height;
@@ -83,7 +91,10 @@ export default class Board extends Component{
 			terrain = createTerrain();
 			terrain = generateTerrain(terrain);
 
-			p.background(200);
+			if (this.state.smooth)
+				alpha = 5;
+
+			p.background(200,alpha);
 		};
    
 		function createTerrain() {
@@ -115,7 +126,7 @@ export default class Board extends Component{
 						p.rect(i * 10,j * 10,10,10);
 					}
 					else {
-						p.fill(200);
+						p.fill(200,alpha);
 						p.rect(i * 10,j * 10,10,10);
 					}
 				}
@@ -191,19 +202,23 @@ export default class Board extends Component{
 			<div className="content">
 				<div className="info" >					
 					<div className="fields">
-						<label className="text-light mt-4" >Width</label><br />
+						<label className="text-dark mt-4" >Width</label><br />
 						<input type="number" min="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
 						
-						<label className="text-light mt-4" >Height</label><br/>
+						<label className="text-dark mt-4" >Height</label><br/>
 						<input type="number" min="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
 						
-						<label className="text-light mt-4" >Generations limit: (0 infinite)</label><br/>
+						<label className="text-dark mt-4" >Generations limit: (0 infinite)</label><br/>
 						<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
 					</div>
 	
-					<div className="checkbox  mt-2">
-						<input type="checkbox" onChange={this.handleCheck} checked={this.state.forceStop} />
-						<label className="text-light ml-1">Stop if stuck</label><br/>
+					<div className="checkbox  mt-3">
+						<input type="checkbox" onChange={this.handleForceStopCheck} checked={this.state.forceStop} />
+						<label className="text-dark ml-1">Stop if stuck</label><br/>
+					</div>
+					<div className="checkbox mt-2">
+						<input type="checkbox" onChange={this.handleSmoothCheck} checked={this.state.smooth} />
+						<label className="text-dark ml-1">Smooth simulation (Beta)</label><br/>
 					</div>
 
 					<div className="buttons">

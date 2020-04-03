@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #292131;  
+  background-color:white;  
 }
 
 /* code {
@@ -22,8 +22,7 @@ body {
   float: left;
 }
 
-.fields input {
-  
+.fields input { 
   width: 50%;
 }
 
@@ -40,9 +39,12 @@ body {
 .board{
   text-align: center;
   padding-top: 20px;
-  height: 100%;
   margin-left: 50px;
-  background-color: #302838;
+  /* background-color: #c3c3c3; */
+}
+.board canvas{
+  border: solid 2px rgb(50,50,50);
+
 }
 
 .buttons{
