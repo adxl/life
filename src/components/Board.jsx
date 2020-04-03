@@ -14,7 +14,7 @@ export default class Board extends Component{
 		gens : 0,
 		gensLimit: 0,
 		forceStop: true,
-		smooth: false
+		smooth: true
 	}
 
 	launch = () => {
@@ -119,7 +119,7 @@ export default class Board extends Component{
 		p.draw = () => {
 			
 			for (let i = 0; i < rows; i++)
-				for (let j = 0; j < cols; j++) {
+				for (let j = 0; j < cols; j++) 
 					if (terrain[i][j]) {
 						p.fill(50);
 						p.stroke(255);
@@ -129,11 +129,13 @@ export default class Board extends Component{
 						p.fill(200,alpha);
 						p.rect(i * 10,j * 10,10,10);
 					}
-				}
 
 			// force stop if stuck in an infinite loop
 			if (stopIfStuck) {	
 				if (JSON.stringify(terrain) === JSON.stringify(elderTerrain)) {
+					if(this.state.smooth)
+						cleanCanvas();
+					
 					p.noLoop();
 					console.log('Forced end.');	
 				}
@@ -151,6 +153,9 @@ export default class Board extends Component{
 			loopTimer--;
 			
 			if (loopTimer === 0) {
+				if(this.state.smooth)
+					cleanCanvas();
+				
 				p.noLoop();
 				console.log('End.');	
 			}
@@ -195,6 +200,21 @@ export default class Board extends Component{
 			neighbors -= terrain[x][y];
 			return neighbors;
 		}
+
+		function cleanCanvas() {
+			for (let i = 0; i < rows; i++)
+				for (let j = 0; j < cols; j++) 
+					if (terrain[i][j]) {
+						p.fill(50);
+						p.stroke(255);
+						p.rect(i * 10,j * 10,10,10);
+					}
+					else {
+						p.fill(200);
+						p.rect(i * 10,j * 10,10,10);
+					}
+				
+		}
 	}
 	
 	render() {
@@ -214,7 +234,7 @@ export default class Board extends Component{
 	
 					<div className="checkbox  mt-3">
 						<input type="checkbox" onChange={this.handleForceStopCheck} checked={this.state.forceStop} />
-						<label className="text-dark ml-1">Stop if stuck</label><br/>
+						<label className="text-dark ml-1">Stop if unstable</label><br/>
 					</div>
 					<div className="checkbox mt-2">
 						<input type="checkbox" onChange={this.handleSmoothCheck} checked={this.state.smooth} />
