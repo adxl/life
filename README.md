@@ -19,6 +19,6 @@ Currently the simulation starts from a random generated state, but a feature all
 
 ## Demo
 
-You can check out the live demo [here](https://adxl.github.io/life/).
+<p>You can check out the live demo <a href="https://adxl.github.io/life/" target="_blank">here.</a></p>
 
 <img src="resources/ls-1.png" alt="life-screenshot">
