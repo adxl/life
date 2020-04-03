@@ -13,6 +13,7 @@ export default class Board extends Component{
 		height: 400,
 		gens : 0,
 		gensLimit: 0,
+		cellsAlive: '-',
 		forceStop: true,
 		smooth: false,
 		shape : 'squares'
@@ -125,10 +126,11 @@ export default class Board extends Component{
 		}
 
 		p.draw = () => {
-			
+			let cellsAlive = 0;
 			for (let i = 0; i < rows; i++)
-				for (let j = 0; j < cols; j++) 
+				for (let j = 0; j < cols; j++) {
 					if (terrain[i][j]) {
+						cellsAlive++;
 						p.fill(50);
 						p.stroke(255);
 						if (shape === 'squares') {
@@ -147,7 +149,10 @@ export default class Board extends Component{
 							p.ellipse(i * 10,j * 10,10,10);
 						}
 					}
+				}
 
+			this.setState({cellsAlive});
+			
 			// force stop if stuck in an infinite loop
 			if (stopIfStuck) {	
 				if (JSON.stringify(terrain) === JSON.stringify(elderTerrain)) {
@@ -241,7 +246,6 @@ export default class Board extends Component{
 							p.ellipse(i * 10,j * 10,10,10);
 						}
 					}
-				
 		}
 	}
 	
@@ -292,6 +296,11 @@ export default class Board extends Component{
 					<div className="gen-counter">
 						<span style={{fontSize:20}} className="badge badge-info mt-3 mb-2" >Generations: {this.state.gens}</span>
 					</div>
+					
+					<div className="gen-counter">
+						<span style={{fontSize:15}} className="badge badge-secondary mt-1 mb-2" >Cells: {this.state.cellsAlive}</span>
+					</div>
+					<hr/>
 					<div ref={this.pRef} className="board">
 					</div>
 				</div>
