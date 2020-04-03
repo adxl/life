@@ -1,6 +1,10 @@
 import React,{ Component } from 'react';
 import p5 from 'p5';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
+import { faQuestionCircle } from '@fortawesome/free-regular-svg-icons';
+
 export default class Board extends Component{
 
 	constructor(props) {
@@ -56,16 +60,13 @@ export default class Board extends Component{
 		this.setState({smooth : event.target.checked});
 	}
 
-	handleWidthChange = event => {
+	handleSizeChange = event => {
 		// console.log(event.target.value);
-		this.setState({ width : event.target.value});	
+		if(event.target.id === 'w')
+			this.setState({ width: event.target.value });
+		else this.setState({ height: event.target.value});
 	}
-
-	handleHeightChange = event => {
-		// console.log(event.target.value);
-		this.setState({ height : event.target.value});
-	}
-
+	
 	handleShapeChange = event => {
 		this.setState({shape : event.target.id});
 		
@@ -254,30 +255,36 @@ export default class Board extends Component{
 			<div className="content">
 				<div className="info" >					
 					<div className="fields">
-						<label className="text-dark mt-4" >Width</label><br />
-						<input type="number" min="100"  step="100" onChange={this.handleWidthChange} value={this.state.width} /><br />
+						<label className="text-dark mt-4 tt-container" >Width</label><br />
+						<span className="tt-info">Set the canvas width</span>
+						<input type="number" min="100" step="100" id="w" onChange={this.handleSizeChange} value={this.state.width} /><br />
 					
-						<label className="text-dark mt-2" >Height</label><br/>
-						<input type="number" min="100"  step="100" onChange={this.handleHeightChange} value={this.state.height} /><br/>
+						<label className="text-dark mt-2 tt-container" >Height</label><br />
+						<span className="tt-info">Set the canvas height</span>
+						<input type="number" min="100"  step="100" id="h" onChange={this.handleSizeChange} value={this.state.height} /><br/>
 
 						<hr/>
 
-						<label className="text-dark mt-1" >Generations limit: (0 infinite)</label><br/>
-						<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0"/><br/>
+						<label className="text-dark mt-1 tt-container" >Generations limit  <FontAwesomeIcon icon={faQuestionCircle}/></label><br/>
+						<span className="tt-info">Set max number of generations (0 infinite)</span>
+						<input type="number" className="mr-2" onChange={this.handleInputChange} value={this.state.gensLimit} min="0" /><br />
 					</div>
 
 					<div className="checkbox  mt-3">
 						<input type="checkbox" onChange={this.handleForceStopCheck} checked={this.state.forceStop} />
-						<label className="text-dark ml-1">Stop if unstable</label><br/>
+						<label className="text-dark ml-1 tt-container">Stop if unstable  <FontAwesomeIcon icon={faQuestionCircle}/></label><br />
+						<span className="tt-info">Stop the simulation if future generations are similar</span>
 					</div>
 					<hr />
 					
 					<div className="shapes">
 						<input type="radio" name="shape" id="squares" checked={this.state.shape === 'squares'} onChange={this.handleShapeChange} />
-						<label className="text-dark ml-1 mr-2">Squares</label>
+						<label className="text-dark ml-1 mr-2 tt-container">Squares</label>
+						<span className="tt-info">Square-shaped cells</span>
 
 						<input type="radio" name="shape" id="circles" checked={this.state.shape === 'circles'} onChange={this.handleShapeChange} />
-						<label className="text-dark ml-1">Circles</label><br/>
+						<label className="text-dark ml-1 tt-container">Circles</label><br />
+						<span className="tt-info">Circle-shaped cells</span>
 
 					</div>
 

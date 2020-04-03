@@ -51,3 +51,26 @@ body {
   margin-top: 20px;
 }
 
+
+.tt-info{
+  visibility: hidden;
+  width: auto;
+  color: #fff;
+  background-color: #333;
+  font-size: smaller;
+  /* text-align: center; */
+  border-radius: 6px;
+  padding: 5px 5px;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tt-container:hover + .tt-info{
+  visibility: visible;
+}
+
+.tt-container:hover + br + .tt-info{
+  visibility: visible;
+}
