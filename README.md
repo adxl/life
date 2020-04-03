@@ -17,6 +17,8 @@ The game is a zero-player game, meaning that its evolution is determined by its 
 
 Currently the simulation starts from a random generated state, but a feature allowing to customize initial state will be added in the future.
 
-## Screenshot
+## Demo
+
+You can check out the live demo [here](https://adxl.github.io/life/).
 
 <img src="resources/ls-1.png" alt="life-screenshot">

@@ -1,6 +1,7 @@
 {
   "name": "life",
   "version": "0.1.0",
+  "homepage": "http://adxl.github.io/life",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -16,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -35,6 +38,7 @@
   },
   "devDependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1"
+    "babel-preset-stage-0": "^6.24.1",
+    "gh-pages": "^2.2.0"
   }
 }
